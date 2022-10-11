@@ -1,0 +1,238 @@
+/*c program to implement various operations on list using linked list.*/
+#include<stdio.h>
+#include<conio.h>
+#include<alloc.h>
+void create();
+void display();
+void insert_at_begin();
+void insert_at_end();
+void insert_at_pos();
+void delete_at_begin();
+void delete_at_end();
+void delete_at_pos();
+void search();
+void count();
+void sort();
+void reverse();
+void merge();
+struct node
+{
+ int data;
+ struct node *next;
+}*new,*head,*temp,*tail,*d,*head1,*new1,*temp1;
+int i,value,pos;
+void main()
+{
+ int ch;
+ clrscr();
+ printf("menu\n");
+ while(1)
+ {
+  printf("\nenter your choice:");
+  scanf("%d",&ch);
+  switch(ch)
+  {
+   case 1:create();break;
+   case 2:display();break;
+   case 3:insert_at_begin();break;
+   case 4:insert_at_end();break;
+   case 5:insert_at_pos();break;
+   case 6:delete_at_begin();break;
+   case 7:delete_at_end();break;
+   case 8:delete_at_pos();break;
+   case 9:search();break;
+   case 10:count();break;
+   case 11:sort();break;
+   case 12:reverse();break;
+   case 13:merge();break;
+   default :exit(1);
+  }
+ }
+ getch();
+}
+void create()
+{
+ char c;
+ do
+ {
+  new=(struct node*)malloc(sizeof(struct node));
+  printf("enter a value:");
+  scanf("%d",&value);
+  new->data=value;
+  new->next=NULL;
+  if(head==NULL)
+  {
+   head=new;
+   tail=new;
+  }
+  else
+  {
+   tail->next=new;
+   tail=new;
+  }
+  printf("do u want to add 1 more node to list(y/n)");
+  fflush(stdin);
+  scanf("%c",&c);
+ }while(c=='y');
+}
+void display()
+{
+ temp=head;
+ printf("elements are:");
+ while(temp!=NULL)
+ {
+  printf("%d->",temp->data);
+  temp=temp->next;
+ }
+}
+void insert_at_begin()
+{
+ new=(struct node*)malloc(sizeof(struct node));
+ printf("enter value:");
+ scanf("%d",&value);
+ new->data=value;
+ new->next=head;
+ head=new;
+}
+void insert_at_end()
+{
+ new=(struct node*)malloc(sizeof(struct node));
+ printf("enter value:");
+ scanf("%d",&value);
+ new->data=value;
+ new->next=NULL;
+ tail->next=new;
+ tail=new;
+}
+void insert_at_pos()
+{
+ new=(struct node*)malloc(sizeof(struct node));
+ printf("enter value");
+ scanf("%d",&value);
+ printf("enter pos");
+ scanf("%d",&pos);
+ new->data=value;
+ temp=head;
+ for(i=0;i<pos-1;i++)
+  temp=temp->next;
+ new->next=temp->next;
+ temp->next=new;
+}
+void delete_at_begin()
+{
+ temp=head;
+ printf("deleted node is %d",head->data);
+ head=head->next;
+ temp->next=NULL;
+ free(temp);
+}
+void delete_at_end()
+{
+ temp=head;
+ while(temp->next->next!=NULL)
+  temp=temp->next;
+ d=temp->next;
+ printf("deleted node is %d",d->data);
+ free(d);
+}
+void delete_at_pos()
+{
+ printf("enter the pos:");
+ scanf("%d",&pos);
+ temp=head;
+ for(i=0;i<pos;i++)
+    temp=temp->next;
+ temp->next=temp->next->next;
+}
+void search()
+{
+  int key,flag=0;
+  printf("enter key element:");
+  scanf("%d",&key);
+  temp=head;
+  while(temp!=NULL)
+  {
+   if(key==temp->data)
+   {
+    flag=1;
+    break;
+   }
+   temp=temp->next;
+  }
+  if(flag==1)
+   printf("key element is found");
+  else
+   printf("key element is not found");
+}
+void count()
+{
+ int c=0;
+ temp=head;
+ while(temp!=NULL)
+ {
+  c++;
+  temp=temp->next;
+ }
+ printf("\n number of nodes in list are:%d",c);
+}
+void sort()
+{
+ int temp;
+ struct node *temp1,*temp2;
+ for(temp1=head;temp1->next!=NULL;temp1=temp1->next)
+ {
+  for(temp2=head;temp2->next!=NULL;temp2=temp2->next)
+  {
+   if(temp2->data>temp2->next->data)
+   {
+    temp=temp2->data;
+    temp2->data=temp2->next->data;
+    temp2->next->data=temp;
+   }
+  }
+ }
+}
+void reverse()
+{
+ struct node *prev=NULL;
+ struct node *current,*next;
+ current=head;
+ while(current!=NULL)
+ {
+  next=current->next;
+  current->next=prev;
+  prev=current;
+  current=next;
+ }
+ head=prev;
+}
+void merge()
+{
+ char ch;
+
+ do
+ {
+  new1=(struct node*)malloc(sizeof(struct node));
+  printf("enter value:");
+  scanf("%d",&value);
+  new1->data=value;
+  new1->next=NULL;
+  if(head1==NULL)
+  {
+   head1=new1;
+   temp1=new1;
+  }
+  else
+  {
+   temp1->next=new1;
+   temp1=temp1->next;
+  }
+  printf("do u want to add 1 more node(y/n)");
+  fflush(stdin);
+  scanf("%c",&ch);
+ }while(ch=='y');
+ temp=head;
+ while(temp->next!=NULL)
+  temp=temp->next;
+ temp->next=head1;
+}
